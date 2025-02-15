@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="css/L.Control.Locate.min.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
+        <link rel="stylesheet" href="css/MarkerCluster.css">
+        <link rel="stylesheet" href="css/MarkerCluster.Default.css">
         <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
@@ -39,15 +41,21 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
+        <script src="js/leaflet.markercluster.js"></script>
         <script src="data/Office_Tourisme_1.js"></script>
         <script src="data/Edificereligieux_2.js"></script>
         <script src="data/Chateau_3.js"></script>
         <script src="data/Site_Prhistorique_4.js"></script>
         <script src="data/Piscine_5.js"></script>
         <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[45.76546854120486,-0.9047570518075995],[45.846699593420375,-0.7416939860309243]]);
+        }).fitBounds([[45.68307182246588,-1.243392542771235],[46.01931737110116,-0.5683370700226675]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -120,10 +128,19 @@
         layer_OSMStandard_0;
         map.addLayer(layer_OSMStandard_0);
         function pop_Office_Tourisme_1(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
-                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -166,13 +183,26 @@
                 return L.circleMarker(latlng, style_Office_Tourisme_1_0(feature));
             },
         });
+        var cluster_Office_Tourisme_1 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Office_Tourisme_1.addLayer(layer_Office_Tourisme_1);
+
         bounds_group.addLayer(layer_Office_Tourisme_1);
-        map.addLayer(layer_Office_Tourisme_1);
+        cluster_Office_Tourisme_1.addTo(map);
         function pop_Edificereligieux_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
-                    </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['Nom'] !== null ? autolinker.link(String(feature.properties['Nom']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
                     </tr>\
@@ -217,13 +247,26 @@
                 return L.marker(latlng, style_Edificereligieux_2_0(feature));
             },
         });
+        var cluster_Edificereligieux_2 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Edificereligieux_2.addLayer(layer_Edificereligieux_2);
+
         bounds_group.addLayer(layer_Edificereligieux_2);
-        map.addLayer(layer_Edificereligieux_2);
+        cluster_Edificereligieux_2.addTo(map);
         function pop_Chateau_3(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
-                    </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['Nom'] !== null ? autolinker.link(String(feature.properties['Nom']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
                     </tr>\
@@ -268,13 +311,26 @@
                 return L.marker(latlng, style_Chateau_3_0(feature));
             },
         });
+        var cluster_Chateau_3 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Chateau_3.addLayer(layer_Chateau_3);
+
         bounds_group.addLayer(layer_Chateau_3);
-        map.addLayer(layer_Chateau_3);
+        cluster_Chateau_3.addTo(map);
         function pop_Site_Prhistorique_4(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
-                    </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['Nom'] !== null ? autolinker.link(String(feature.properties['Nom']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
                     </tr>\
@@ -319,13 +375,26 @@
                 return L.marker(latlng, style_Site_Prhistorique_4_0(feature));
             },
         });
+        var cluster_Site_Prhistorique_4 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Site_Prhistorique_4.addLayer(layer_Site_Prhistorique_4);
+
         bounds_group.addLayer(layer_Site_Prhistorique_4);
-        map.addLayer(layer_Site_Prhistorique_4);
+        cluster_Site_Prhistorique_4.addTo(map);
         function pop_Piscine_5(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(String(feature.properties['id']).replace(/'/g, '\'').replace(/"/g, '&quot;').toLocaleString()) : '') + '</td>\
-                    </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
 			layer.on('popupopen', function(e) {
@@ -368,8 +437,12 @@
                 return L.circleMarker(latlng, style_Piscine_5_0(feature));
             },
         });
+        var cluster_Piscine_5 = new L.MarkerClusterGroup({showCoverageOnHover: false,
+            spiderfyDistanceMultiplier: 2});
+        cluster_Piscine_5.addLayer(layer_Piscine_5);
+
         bounds_group.addLayer(layer_Piscine_5);
-        map.addLayer(layer_Piscine_5);
+        cluster_Piscine_5.addTo(map);
         var osmGeocoder = new L.Control.Geocoder({
             collapsed: true,
             position: 'topleft',
@@ -381,11 +454,11 @@
         document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
         .title += 'Search for a place';
         var overlaysTree = [
-            {label: '<img src="legend/Piscine_5.png" /> Piscine', layer: layer_Piscine_5},
-            {label: '<img src="legend/Site_Prhistorique_4.png" /> Site_Préhistorique', layer: layer_Site_Prhistorique_4},
-            {label: '<img src="legend/Chateau_3.png" /> Chateau', layer: layer_Chateau_3},
-            {label: '<img src="legend/Edificereligieux_2.png" /> Edifice religieux', layer: layer_Edificereligieux_2},
-            {label: '<img src="legend/Office_Tourisme_1.png" /> Office_Tourisme', layer: layer_Office_Tourisme_1},
+            {label: '<img src="legend/Piscine_5.png" /> Piscine', layer: cluster_Piscine_5},
+            {label: '<img src="legend/Site_Prhistorique_4.png" /> Site_Préhistorique', layer: cluster_Site_Prhistorique_4},
+            {label: '<img src="legend/Chateau_3.png" /> Chateau', layer: cluster_Chateau_3},
+            {label: '<img src="legend/Edificereligieux_2.png" /> Edifice religieux', layer: cluster_Edificereligieux_2},
+            {label: '<img src="legend/Office_Tourisme_1.png" /> Office_Tourisme', layer: cluster_Office_Tourisme_1},
             {label: "OSM Standard", layer: layer_OSMStandard_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
