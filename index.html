@@ -21,7 +21,7 @@
             margin: 0;
         }
         </style>
-        <title></title>
+        <title>Charente-Maritime</title>
     </head>
     <body>
         <div id="map">
@@ -47,7 +47,7 @@
         <script>
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[45.245335921118716,-1.4442983762689594],[46.158423971533246,0.390341312517444]]);
+        }).fitBounds([[45.76546854120486,-0.9047570518075995],[45.846699593420375,-0.7416939860309243]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -79,6 +79,16 @@
 				popup._contentNode.classList.remove('media');
 			}
 		}
+        var title = new L.Control({'position':'topright'});
+        title.onAdd = function (map) {
+            this._div = L.DomUtil.create('div', 'info');
+            this.update();
+            return this._div;
+        };
+        title.update = function () {
+            this._div.innerHTML = '<h2>Charente-Maritime</h2>';
+        };
+        title.addTo(map);
         var zoomControl = L.control.zoom({
             position: 'topleft'
         }).addTo(map);
@@ -125,12 +135,16 @@
         function style_Office_Tourisme_1_0() {
             return {
                 pane: 'pane_Office_Tourisme_1',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/Office_Tourisme_1.svg',
-            iconSize: [95.0, 95.0]
-        }),
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(252,0,0,1.0)',
                 interactive: true,
             }
         }
@@ -149,7 +163,7 @@
                     feature: feature,
                     variables: {}
                 };
-                return L.marker(latlng, style_Office_Tourisme_1_0(feature));
+                return L.circleMarker(latlng, style_Office_Tourisme_1_0(feature));
             },
         });
         bounds_group.addLayer(layer_Office_Tourisme_1);
@@ -323,12 +337,16 @@
         function style_Piscine_5_0() {
             return {
                 pane: 'pane_Piscine_5',
-        rotationAngle: 0.0,
-        rotationOrigin: 'center center',
-        icon: L.icon({
-            iconUrl: 'markers/Piscine_5.svg',
-            iconSize: [26.599999999999998, 26.599999999999998]
-        }),
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(7,148,243,1.0)',
                 interactive: true,
             }
         }
@@ -347,7 +365,7 @@
                     feature: feature,
                     variables: {}
                 };
-                return L.marker(latlng, style_Piscine_5_0(feature));
+                return L.circleMarker(latlng, style_Piscine_5_0(feature));
             },
         });
         bounds_group.addLayer(layer_Piscine_5);
